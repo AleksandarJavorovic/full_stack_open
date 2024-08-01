@@ -4,17 +4,17 @@
 
 | Exercise     | Done      |
 | ------------- | ------------- |
-| Part 0 | ✔ |
-| Part 1 | ✔ |
-| Part 2 | ❌ |
-| Part 3 | ❌ |
-| Part 4 | ❌ |
-| Part 5 | ❌ |
-| Part 6 | ❌ |
-| Part 7 | ❌ |
-| Part 8 | ❌ |
-| Part 9 | ❌ |
-| Part 10 | ❌ |
-| Part 11 | ❌ |
-| Part 12 | ❌ |
-| Part 13 | ❌ |
+| Part 0 - Fundamentals of Web apps | ✔ |
+| Part 1 - Introduction to React | ✔ |
+| Part 2 - Communicating with server | ❌ |
+| Part 3 - Programming a server with NodeJS and Express | ❌ |
+| Part 4 - Testing Express servers, user administration | ❌ |
+| Part 5 - Testing React apps | ❌ |
+| Part 6 - Advanced state management | ❌ |
+| Part 7 - React router, custom hooks, styling app with CSS and webpack | ❌ |
+| Part 8 - GraphQL | ❌ |
+| Part 9 - TypeScript | ❌ |
+| Part 10 - React Native | ❌ |
+| Part 11 - CI/CD| ❌ |
+| Part 12 - Containers | ❌ |
+| Part 13 - Using relational databases | ❌ |
