@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const Message = (props) => {
+  return (
+    <div>
+      <h1>{props.text}</h1>
+    </div>
+  )
+}
+
 const Button = (props) => {
   return (
     <div>
@@ -19,20 +27,33 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+
+
   const [selected, setSelected] = useState(0)
+  const [voteArray, setVoteArray] = useState(new Array(anecdotes.length).fill(0));
+  const theMostVoted = voteArray.indexOf(Math.max(...voteArray));
 
   const randomAnecdote = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length)
     setSelected(randomIndex)
   }
 
-
+  const anecdoteVotes = () => {
+    const copyVoteArray = [...voteArray]
+    copyVoteArray[selected] += 1;
+    setVoteArray(copyVoteArray);
+  }
 
   return (
     <div>
+      <Message text={"Anecdote of the Day!"} />
       <p>{anecdotes[selected]}</p>
+      <p>Has {voteArray[selected]} votes.</p>
       <Button onClick={randomAnecdote} text="Random Anecdote" />
+      <Button onClick={anecdoteVotes} text="Vote" />
+      <Message text={"Anecdote with the most votes:"} />
+      <p>{anecdotes[theMostVoted]}</p>
+      <p>Number of votes: {voteArray[theMostVoted]}</p>
     </div>
   )
 }
