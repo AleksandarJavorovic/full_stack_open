@@ -1,83 +1,63 @@
-import { useState } from 'react'
-
-
-const Persons = ({ persons, searchName }) => {
-  const displayedPersons = searchName
-    ? persons.filter(person => person.name.toLowerCase().includes(searchName.toLowerCase()))
-    : persons;
-  return (
-    <div>
-      {displayedPersons.map((person) => (
-        <p key={person.name}>{person.name}: {person.number}</p>
-      ))}
-    </div>
-  )
-}
+import { useState } from "react";
+import Filter from './components/Filter/Filter'
+import PersonForm from './components/PersonForm/PersonForm'
+import Persons from './components/Persons/Persons'
 
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+    { name: "Arto Hellas", number: "040-123456" },
+    { name: "Ada Lovelace", number: "39-44-5323523" },
+    { name: "Dan Abramov", number: "12-43-234345" },
+    { name: "Mary Poppendieck", number: "39-23-6423122" },
+  ]);
 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [searchName, setSearchName] = useState('')
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const [searchName, setSearchName] = useState("");
 
   const addPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const personObject = {
       name: newName,
       number: newNumber,
-    }
+    };
 
-    if (persons.some(person => person.name === newName)){
-      window.alert(`${newName} already exists in the phonebook!`)
-      setNewName('')
-      setNewNumber('')
+    if (persons.some((person) => person.name === newName)) {
+      window.alert(`${newName} already exists in the phonebook!`);
+      setNewName("");
+      setNewNumber("");
     } else {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
+      setPersons(persons.concat(personObject));
+      setNewName("");
+      setNewNumber("");
     }
-  }
+  };
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
+    setNewName(event.target.value);
+  };
 
   const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
+    setNewNumber(event.target.value);
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        search contact: <input type="text" value={searchName} onChange={e => setSearchName(e.target.value)} />
-      </div>
-      <br />
+      <Filter searchName={searchName} setSearchName={setSearchName} />
       <h2>Add new contact</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <br />
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <br />
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        newName={newName}
+        newNumber={newNumber}
+      />
       <h2>Numbers</h2>
       <Persons persons={persons} searchName={searchName} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
