@@ -28,7 +28,17 @@ const App = () => {
     };
 
     if (persons.some((person) => person.name === newName)) {
-      window.alert(`${newName} already exists in the phonebook!`);
+      if(window.confirm(`${newName} already exists in the phonebook! Replace the old number with a new one?`)) {
+        const person = persons.find((person) => person.name === newName);
+        const changedPerson = { ...person, number: newNumber };
+        personService
+        .update(person.id, changedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map((person) => (person.id !== returnedPerson.id ? person : returnedPerson)));
+          setNewName("");
+          setNewNumber("");
+        })
+      }
       setNewName("");
       setNewNumber("");
     } else {
