@@ -4,6 +4,7 @@ import Filter from './components/Filter/Filter'
 import PersonForm from './components/PersonForm/PersonForm'
 import Persons from './components/Persons/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification/Notification'
 
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -35,6 +37,12 @@ const App = () => {
         .update(person.id, changedPerson)
         .then(returnedPerson => {
           setPersons(persons.map((person) => (person.id !== returnedPerson.id ? person : returnedPerson)));
+          setErrorMessage(
+            `${newName}'s number has been updated!`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
           setNewName("");
           setNewNumber("");
         })
@@ -46,6 +54,12 @@ const App = () => {
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
+        setErrorMessage(
+          `Added ${newName}!`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         setNewName("");
         setNewNumber("");
     })
@@ -74,6 +88,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter searchName={searchName} setSearchName={setSearchName} />
       <h2>Add new contact</h2>
       <PersonForm
