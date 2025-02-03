@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-// import axios from 'axios'
 import Filter from './components/Filter/Filter'
 import PersonForm from './components/PersonForm/PersonForm'
 import Persons from './components/Persons/Persons'
@@ -12,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchName, setSearchName] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState({ message: null, type: null });
 
   useEffect(() => {
     personService
@@ -37,14 +36,13 @@ const App = () => {
         .update(person.id, changedPerson)
         .then(returnedPerson => {
           setPersons(persons.map((person) => (person.id !== returnedPerson.id ? person : returnedPerson)));
-          setErrorMessage(
-            `${newName}'s number has been updated!`
-          )
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
+          showNotification(`${newName}'s number has been updated!`, 'success');
           setNewName("");
           setNewNumber("");
+        })
+        .catch(() => {
+          showNotification(`Information of ${newName} has already been removed from server!`, 'error');
+          setPersons(persons.filter(p => p.id !== person.id))
         })
       }
       setNewName("");
@@ -54,16 +52,18 @@ const App = () => {
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
-        setErrorMessage(
-          `Added ${newName}!`
-        )
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        showNotification(`Added ${newName}!`, 'success');
         setNewName("");
         setNewNumber("");
     })
     }
+  };
+
+  const showNotification = (message, type) => {
+    setNotificationMessage({ message, type });
+    setTimeout(() => {
+      setNotificationMessage({ message: null, type: null });
+    }, 5000);
   };
 
   const handleNameChange = (event) => {
@@ -88,7 +88,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={notificationMessage.message} type={notificationMessage.type} />
       <Filter searchName={searchName} setSearchName={setSearchName} />
       <h2>Add new contact</h2>
       <PersonForm

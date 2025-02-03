@@ -1,4 +1,22 @@
-.error {
+.notification {
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notification.error {
+    color: rgb(255, 0, 0);
+    background: rgb(255, 255, 255);
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+.notification.success {
     color: rgb(5, 131, 45);
     background: rgb(255, 255, 255);
     font-size: 20px;
