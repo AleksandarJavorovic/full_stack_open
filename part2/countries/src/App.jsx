@@ -4,6 +4,8 @@ import counteriesService from './services/countries'
 const App = () => {
   const [countries, setCountries] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState(null)
+
 
   useEffect(() => {
     counteriesService
@@ -18,6 +20,11 @@ const App = () => {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value)
   }
+
+  const handleShowCountry = (country) => {
+    setSelectedCountry(country)
+  }
+  
 
   const countryDetails = (country) => {
     return (
@@ -41,19 +48,28 @@ const App = () => {
     if (!searchQuery) {
       return null
     }
-
+  
     if (filteredCountries.length > 10) {
       return <p>Too many matches, specify another filter</p>
     }
-
+  
     if (filteredCountries.length === 1) {
       return countryDetails(filteredCountries[0])
     }
-
-    return filteredCountries.map(country => (
-      <p key={country.name.common}>{country.name.common}</p>
-    ))
+  
+    return (
+      <div>
+        {filteredCountries.map(country => (
+          <div key={country.name.common}>
+            <span>{country.name.common}</span>
+            <button onClick={() => handleShowCountry(country)}>show</button>
+          </div>
+        ))}
+        {selectedCountry && countryDetails(selectedCountry)}
+      </div>
+    )
   }
+  
 
   return (
     <div>
