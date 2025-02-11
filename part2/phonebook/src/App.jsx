@@ -16,9 +16,7 @@ const App = () => {
   useEffect(() => {
     personService
       .getAll()
-      .then(initialPersons => {
-        setPersons(initialPersons)
-      })
+      .then(initialPersons => {setPersons(initialPersons)})
   }, [])
 
   const addPerson = (event) => {
