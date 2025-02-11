@@ -25,8 +25,19 @@ let persons = [
     }
 ]
 
+morgan.token('person-info', (req) => {
+  const id = req.params.id;
+
+  if (id) {
+    const person = persons.find(p => p.id === id);
+    return person ? JSON.stringify({ name: person.name, number: person.number }) : 'Person not found';
+  }
+
+  return JSON.stringify(persons.map(({ name, number }) => ({ name, number })));
+});
+
 app.use(express.json());
-app.use(morgan('tiny'));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :person-info'));
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
