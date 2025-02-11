@@ -1,4 +1,7 @@
-POST http://localhost:3001/api/persons
+# POST http://localhost:3001/api/persons
+# Content-Type: application/json
+
+POST https://phonebook-backend-tlsr.onrender.com/api/persons
 Content-Type: application/json
 
 {
