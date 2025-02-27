@@ -72,10 +72,26 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
-  
-    response.status(204).end()
+  Person.findByIdAndDelete(request.params.id)
+  .then(result => {
+    if (result) {
+      response.status(204).end()
+    } else {
+      response.status(404).json({ error: 'Person not found' })
+    }
+  })
+  .catch(error => {
+    console.log(error)
+    response.status(500).end()
+  })
+})
+
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const generateId = () => {
