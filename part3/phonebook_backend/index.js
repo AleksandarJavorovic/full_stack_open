@@ -5,6 +5,16 @@ const app = express()
 const Person = require('./models/person')
 const cors = require('cors')
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
 app.use(cors())
 app.use(express.static('dist'))
 
@@ -71,7 +81,7 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
   .then(result => {
     if (result) {
@@ -80,19 +90,9 @@ app.delete('/api/persons/:id', (request, response) => {
       response.status(404).json({ error: 'Person not found' })
     }
   })
-  .catch(error => {
-    console.log(error)
-    response.status(500).end()
-  })
+  .catch(error => next(error))
 })
 
-app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndDelete(request.params.id)
-    .then(result => {
-      response.status(204).end()
-    })
-    .catch(error => next(error))
-})
 
 const generateId = () => {
     return String(Math.floor(Math.random() * 1000000));
@@ -122,6 +122,8 @@ app.post('/api/persons', (request, response) => {
       response.json(savedPerson)
     })
 })
+
+app.use(errorHandler)
   
 
 const PORT = process.env.PORT
