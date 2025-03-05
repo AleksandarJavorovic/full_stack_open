@@ -67,18 +67,21 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/info', (request, response) => {
     const date = new Date()
-    response.send(`Phonebook has info for ${persons.length} people.<br/><br/>${date}`)
+    Person.countDocuments()
+        .then(count => {
+            response.send(`Phonebook has info for ${count} people.<br/><br/>${date}`)
+        })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(person => person.id === id)
-  
-    if (person) {
-      response.json(person)
+  Person.findById(request.params.id)
+  .then(result => {
+    if (result) {
+      response.json(result)
     } else {
-      response.status(404).end()
+      response.status(404).json({ error: 'Person not found' })
     }
+  })
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -106,12 +109,6 @@ app.post('/api/persons', (request, response) => {
           error: 'name or number is missing' 
         })
     }
-
-    // if (persons.find(person => person.name === body.name)) {
-    //     return response.status(400).json({ 
-    //       error: 'name must be unique' 
-    //     })
-    // }
   
     const person = new Person({
       name: body.name,
