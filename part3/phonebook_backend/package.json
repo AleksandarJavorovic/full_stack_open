@@ -5,16 +5,23 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "Aleksandar Javorovic",
   "license": "MIT",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@stylistic/eslint-plugin-js": "^4.2.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0",
     "nodemon": "^3.1.9"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dos2unix": "^1.1.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.10.1",

@@ -10,7 +10,7 @@ console.log('connecting to', url)
 
 mongoose.connect(url)
 
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch(error => {
@@ -30,7 +30,7 @@ const personSchema = new mongoose.Schema({
 //   name: {
 //     type: String,
 //     required: [true, 'Name is required'],
-//     minlength: [3, 'Name must be at least 3 characters'] 
+//     minlength: [3, 'Name must be at least 3 characters']
 //   },
 //   number: {
 //     type: String,

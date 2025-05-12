@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 
-const password = process.env.MONGODB_PASSWORD;
+const password = process.env.MONGODB_PASSWORD
 
 const url =
 `mongodb+srv://aleksandarjavorovic:${password}@cluster0.kmhig.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
@@ -36,7 +36,7 @@ if (process.argv.length<3) {
   })
   // return
 } else if (process.argv.length>3) {
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`Added ${person.name}, number: ${person.number} to phonebook!`)
     mongoose.connection.close()
   })
