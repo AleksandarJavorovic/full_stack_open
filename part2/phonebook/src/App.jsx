@@ -53,7 +53,29 @@ const App = () => {
         showNotification(`Added ${newName}!`, 'success');
         setNewName("");
         setNewNumber("");
-    })
+      })
+      .catch(error => {
+        // 1. Log full error details for debugging
+        console.log('Full error:', error);
+        console.log('Server response:', error.response?.data);
+      
+        // 2. Extract messages
+        const messages = error.response?.data?.details || 
+                        [error.response?.data?.error] || 
+                        ['Operation failed'];
+      
+        // 3. Display ALL validation errors
+        messages.forEach(msg => {
+          showNotification(`Error: ${msg}`, 'error');
+        });
+      
+        setNewName("");
+        setNewNumber("");
+      });
+      
+      
+      
+      
     }
   };
 
