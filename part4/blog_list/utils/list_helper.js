@@ -13,8 +13,27 @@ const favoriteBlog = (blogs) => {
   return blogs.reduce((max, blog) => (blog.likes > max.likes ? blog : max), blogs[0]).likes
 }
 
+const _ = require('lodash')
+
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) return null
+
+  const counts = _.countBy(blogs, 'author')
+
+  const [author, blogsCount] = _.maxBy(
+    _.toPairs(counts),
+    ([, count]) => count
+  )
+
+  return {
+    author: author,
+    blogs: blogsCount
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
