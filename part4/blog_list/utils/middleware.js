@@ -24,8 +24,17 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const validateBlog = (request, response, next) => {
+  const { title, url } = request.body;
+  if (!title || !url) {
+    return response.status(400).json({ error: 'Title and URL are required' });
+  }
+  next();
+}
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  validateBlog
 }

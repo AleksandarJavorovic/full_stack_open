@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const middleware = require('../utils/middleware');
 
 blogsRouter.get('/', (request, response) => {
   Blog.find({}).then(blogs => {
@@ -7,7 +8,7 @@ blogsRouter.get('/', (request, response) => {
   })
 })
 
-blogsRouter.post('/', (request, response) => {
+blogsRouter.post('/', middleware.validateBlog, (request, response) => {
   const blog = new Blog(request.body)
 
   blog.save().then(result => {
