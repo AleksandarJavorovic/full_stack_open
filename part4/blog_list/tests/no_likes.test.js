@@ -6,13 +6,12 @@ const app = require('../app');
 
 const api = supertest(app);
 
-describe('HTTP POST', () => {
-  test('a valid blog can be added', async () => {
+describe('blog without likes', () => {
+  test('defaults to 0 likes', async () => {
     const newBlog = {
-      title: "test blog post",
-      author: "Alex Alex",
-      url: "http://example.com/test-blog-post",
-      likes: 50
+      title: "blog without likes",
+      author: "Likes Like",
+      url: "http://example.com/no-likes"
     };
 
     await api
@@ -22,13 +21,11 @@ describe('HTTP POST', () => {
       .expect('Content-Type', /application\/json/);
 
     const response = await api.get('/api/blogs');
-    const titles = response.body.map(r => r.title);
+    const addedBlog = response.body.find(b => b.title === "blog without likes");
 
-    assert.strictEqual(response.body.length, 5);
-    assert.ok(titles.includes("test blog post"));
+    assert.strictEqual(addedBlog.likes, 0);
   });
 });
-
 
 
 after(() => {
